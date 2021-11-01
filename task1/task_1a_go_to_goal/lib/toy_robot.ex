@@ -6,6 +6,8 @@ defmodule ToyRobot do
   # mapping of y-coordinates
   @robot_map_y_atom_to_num %{:a => 1, :b => 2, :c => 3, :d => 4, :e => 5}
 
+
+
   @doc """
   Places the robot to the default position of (1, A, North)
 
@@ -85,53 +87,144 @@ defmodule ToyRobot do
     y = robot.y
     facing = robot.facing
 
-    robot = if goal_x>x do
-    right(robot)
+
+
+
+
+    robot = cond do
+     goal_x < x -> cond do
+        facing == :north ->left(robot)
+        facing == :east -> left(robot)
+        facing == :south -> right(robot)
+        facing == :west -> robot
+      end
+
+      goal_x > x -> cond do
+        facing == :north -> right(robot)
+        facing == :west -> right(robot)
+        facing == :south -> left(robot)
+        facing == :east -> robot
+      end
+
+      true -> robot
+    end
     send_robot_status(robot,cli_proc_name)
+
+
+    robot = cond do
+      goal_x < x -> cond do
+         robot.facing == :north ->left(robot)
+         true -> robot
+      end
+
+      goal_x > x -> cond do
+         robot.facing == :north -> right(robot)
+         true -> robot
+      end
+
+      true -> robot
     end
 
-    #robot = cond do
-    #goal_x > x -> cond do
-    #  facing == :north -> right(robot)
-    #end
-    #end
+    send_robot_status(robot, cli_proc_name)
 
-    #cond do
-     #goal_x < x -> cond do
-        #facing == :north -> robot = left(robot)
-        #facing == :east -> left(robot) send_robot_status(robot,cli_proc_name) left(robot)
-        #facing == :south -> robot = right(robot)
-        #facing == :west -> facing = facing
-      #end
+    robot = if robot.x != goal_x do
+      move(robot)
+    else
+      robot
+    end
+    send_robot_status(robot,cli_proc_name)
 
-      #goal_x > x -> cond do
-        #facing == :north -> robot = right(robot)
-        #facing == :west -> right(robot) send_robot_status(robot,cli_proc_name) right(robot)
-        #facing == :south -> robot = left(robot)
-        #facing == :east -> facing =facing
-      #end
-      #send_robot_status(robot,cli_proc_name)
-    #end
-    #if robot.x != goal_x do
-      #robot = move(robot)
-      #send_robot_status(robot,cli_proc_name)
-    #end
-    #if robot.x != goal_x do
-      #robot = move(robot)
-      #send_robot_status(robot,cli_proc_name)
-    #end
-    #if robot.x != goal_x do
-      #robot = move(robot)
-      #send_robot_status(robot,cli_proc_name)
-    #end
-    #if robot.x != goal_x do
-      #robot = move(robot)
-      #send_robot_status(robot,cli_proc_name)
-    #end
+    robot = if robot.x != goal_x do
+      move(robot)
+    else
+      robot
+    end
+    send_robot_status(robot,cli_proc_name)
+
+    robot = if robot.x != goal_x do
+      move(robot)
+    else
+      robot
+    end
+    send_robot_status(robot,cli_proc_name)
+
+    robot = if robot.x != goal_x do
+      move(robot)
+    else
+      robot
+    end
+    send_robot_status(robot,cli_proc_name)
+
+    robot = cond do
+      goal_y >  y -> cond do
+       robot.facing == :east -> left(robot)
+       robot.facing == :west -> right(robot)
+       robot.facing == :south -> right(robot)
+       true -> robot
+      end
+      goal_y < y -> cond do
+        robot.facing == :east -> right(robot)
+        robot.facing == :west -> left(robot)
+        robot.facing == :north -> right(robot)
+        true -> robot
+      end
+
+      true -> robot
+    end
+
+    send_robot_status(robot, cli_proc_name)
+
+    robot = cond do
+      goal_y > y -> cond do
+         robot.facing == :west ->right(robot)
+         true -> robot
+      end
+
+      goal_y < y -> cond do
+         robot.facing == :east -> right(robot)
+         true -> robot
+      end
+
+      true -> robot
+    end
+
+    send_robot_status(robot, cli_proc_name)
+
+
+    robot = if robot.y != goal_y do
+      move(robot)
+    else
+      robot
+    end
+    send_robot_status(robot,cli_proc_name)
+
+    robot = if robot.y != goal_y do
+      move(robot)
+    else
+      robot
+    end
+    send_robot_status(robot,cli_proc_name)
+
+    robot = if robot.y != goal_y do
+      move(robot)
+    else
+      robot
+    end
+    send_robot_status(robot,cli_proc_name)
+
+    if robot.y != goal_y do
+      robot = move(robot)
+      send_robot_status(move(robot),cli_proc_name)
+
+    else
+      robot
+    end
 
 
 
-    {:failure,robot.facing}
+
+
+    {:ok,robot}
 
 
 

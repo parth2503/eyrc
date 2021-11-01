@@ -1,1 +1,12 @@
-1, a, north
+1, a, east
+1, a, east
+2, a, east
+3, a, east
+4, a, east
+5, a, east
+5, a, north
+5, a, north
+5, b, north
+5, c, north
+5, d, north
+5, e, north
