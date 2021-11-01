@@ -91,7 +91,7 @@ defmodule ToyRobot do
 
 
 
-    robot = cond do
+    robot1 = cond do
      goal_x < x -> cond do
         facing == :north ->left(robot)
         facing == :east -> left(robot)
@@ -108,10 +108,13 @@ defmodule ToyRobot do
 
       true -> robot
     end
-    send_robot_status(robot,cli_proc_name)
 
+    if robot != robot1 do
+      send_robot_status(robot1, cli_proc_name)
+    end
+    robot = robot1
 
-    robot = cond do
+    robot1 = cond do
       goal_x < x -> cond do
          robot.facing == :north ->left(robot)
          true -> robot
@@ -125,37 +128,48 @@ defmodule ToyRobot do
       true -> robot
     end
 
-    send_robot_status(robot, cli_proc_name)
+    if robot != robot1 do
+      send_robot_status(robot1, cli_proc_name)
+    end
+    robot = robot1
 
     robot = if robot.x != goal_x do
+      test = move(robot)
+      send_robot_status(test,cli_proc_name)
       move(robot)
     else
       robot
     end
-    send_robot_status(robot,cli_proc_name)
+    #send_robot_status(robot,cli_proc_name)
 
     robot = if robot.x != goal_x do
+      test = move(robot)
+      send_robot_status(test,cli_proc_name)
       move(robot)
     else
       robot
     end
-    send_robot_status(robot,cli_proc_name)
+    #send_robot_status(robot,cli_proc_name)
 
     robot = if robot.x != goal_x do
+      test = move(robot)
+      send_robot_status(test,cli_proc_name)
       move(robot)
     else
       robot
     end
-    send_robot_status(robot,cli_proc_name)
+    #send_robot_status(robot,cli_proc_name)
 
     robot = if robot.x != goal_x do
+      test = move(robot)
+      send_robot_status(test,cli_proc_name)
       move(robot)
     else
       robot
     end
-    send_robot_status(robot,cli_proc_name)
+    #send_robot_status(robot,cli_proc_name)
 
-    robot = cond do
+    robot1 = cond do
       goal_y >  y -> cond do
        robot.facing == :east -> left(robot)
        robot.facing == :west -> right(robot)
@@ -171,10 +185,12 @@ defmodule ToyRobot do
 
       true -> robot
     end
+    if robot != robot1 do
+      send_robot_status(robot1, cli_proc_name)
+    end
+    robot = robot1
 
-    send_robot_status(robot, cli_proc_name)
-
-    robot = cond do
+    robot1 = cond do
       goal_y > y -> cond do
          robot.facing == :west ->right(robot)
          true -> robot
@@ -188,34 +204,43 @@ defmodule ToyRobot do
       true -> robot
     end
 
-    send_robot_status(robot, cli_proc_name)
 
+    if robot != robot1 do
+      send_robot_status(robot1, cli_proc_name)
+    end
+    robot = robot1
 
     robot = if robot.y != goal_y do
+      test = move(robot)
+      send_robot_status(test,cli_proc_name)
       move(robot)
     else
       robot
     end
-    send_robot_status(robot,cli_proc_name)
+    #send_robot_status(robot,cli_proc_name)
 
     robot = if robot.y != goal_y do
+      test = move(robot)
+      send_robot_status(test,cli_proc_name)
       move(robot)
     else
       robot
     end
-    send_robot_status(robot,cli_proc_name)
+    #send_robot_status(robot,cli_proc_name)
 
     robot = if robot.y != goal_y do
+      test = move(robot)
+      send_robot_status(test,cli_proc_name)
       move(robot)
     else
       robot
     end
-    send_robot_status(robot,cli_proc_name)
+    #send_robot_status(robot,cli_proc_name)
 
-    if robot.y != goal_y do
-      robot = move(robot)
-      send_robot_status(move(robot),cli_proc_name)
-
+    robot = if robot.y != goal_y do
+      test = move(robot)
+      send_robot_status(test,cli_proc_name)
+      move(robot)
     else
       robot
     end
@@ -250,6 +275,10 @@ defmodule ToyRobot do
       iex> ToyRobot.report(robot)
       {2, :b, :west}
   """
+  def report(%ToyRobot.Position{x: x, y: y, facing: facing} = _robot) do
+    {x, y, facing}
+  end
+
   def report(%ToyRobot.Position{x: x, y: y, facing: facing} = _robot) do
     {x, y, facing}
   end
