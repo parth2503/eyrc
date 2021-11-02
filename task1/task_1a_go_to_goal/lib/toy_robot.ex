@@ -83,13 +83,91 @@ defmodule ToyRobot do
   Passing the CLI Server process name that will be used to send robot's current status after each action is taken.
   """
   def stop( robot, goal_x, goal_y, cli_proc_name) do
+    send_robot_status(robot,cli_proc_name)
+
+    robot1 = cond do
+      goal_y >  robot.y -> cond do
+       robot.facing == :east -> left(robot)
+       robot.facing == :west -> right(robot)
+       robot.facing == :south -> right(robot)
+       true -> robot
+      end
+      goal_y < robot.y -> cond do
+        robot.facing == :east -> right(robot)
+        robot.facing == :west -> left(robot)
+        robot.facing == :north -> right(robot)
+        true -> robot
+      end
+
+      true -> robot
+    end
+    if robot != robot1 do
+      send_robot_status(robot1, cli_proc_name)
+    end
+    robot = robot1
+
+    robot1 = cond do
+      goal_y > robot.y -> cond do
+         robot.facing == :west ->right(robot)
+         true -> robot
+      end
+
+      goal_y < robot.y -> cond do
+         robot.facing == :east -> right(robot)
+         true -> robot
+      end
+
+      true -> robot
+    end
+
+
+    if robot != robot1 do
+      send_robot_status(robot1, cli_proc_name)
+    end
+    robot = robot1
+
+    robot = if robot.y != goal_y do
+      test = move(robot)
+      send_robot_status(test,cli_proc_name)
+      move(robot)
+    else
+      robot
+    end
+    #send_robot_status(robot,cli_proc_name)
+
+    robot = if robot.y != goal_y do
+      test = move(robot)
+      send_robot_status(test,cli_proc_name)
+      move(robot)
+    else
+      robot
+    end
+    #send_robot_status(robot,cli_proc_name)
+
+    robot = if robot.y != goal_y do
+      test = move(robot)
+      send_robot_status(test,cli_proc_name)
+      move(robot)
+    else
+      robot
+    end
+    #send_robot_status(robot,cli_proc_name)
+
+    robot = if robot.y != goal_y do
+      test = move(robot)
+      send_robot_status(test,cli_proc_name)
+      move(robot)
+    else
+      robot
+    end
+
+
+
+
+
     x = robot.x
     y = robot.y
     facing = robot.facing
-
-
-
-
 
     robot1 = cond do
      goal_x < x -> cond do
@@ -169,81 +247,6 @@ defmodule ToyRobot do
     end
     #send_robot_status(robot,cli_proc_name)
 
-    robot1 = cond do
-      goal_y >  y -> cond do
-       robot.facing == :east -> left(robot)
-       robot.facing == :west -> right(robot)
-       robot.facing == :south -> right(robot)
-       true -> robot
-      end
-      goal_y < y -> cond do
-        robot.facing == :east -> right(robot)
-        robot.facing == :west -> left(robot)
-        robot.facing == :north -> right(robot)
-        true -> robot
-      end
-
-      true -> robot
-    end
-    if robot != robot1 do
-      send_robot_status(robot1, cli_proc_name)
-    end
-    robot = robot1
-
-    robot1 = cond do
-      goal_y > y -> cond do
-         robot.facing == :west ->right(robot)
-         true -> robot
-      end
-
-      goal_y < y -> cond do
-         robot.facing == :east -> right(robot)
-         true -> robot
-      end
-
-      true -> robot
-    end
-
-
-    if robot != robot1 do
-      send_robot_status(robot1, cli_proc_name)
-    end
-    robot = robot1
-
-    robot = if robot.y != goal_y do
-      test = move(robot)
-      send_robot_status(test,cli_proc_name)
-      move(robot)
-    else
-      robot
-    end
-    #send_robot_status(robot,cli_proc_name)
-
-    robot = if robot.y != goal_y do
-      test = move(robot)
-      send_robot_status(test,cli_proc_name)
-      move(robot)
-    else
-      robot
-    end
-    #send_robot_status(robot,cli_proc_name)
-
-    robot = if robot.y != goal_y do
-      test = move(robot)
-      send_robot_status(test,cli_proc_name)
-      move(robot)
-    else
-      robot
-    end
-    #send_robot_status(robot,cli_proc_name)
-
-    robot = if robot.y != goal_y do
-      test = move(robot)
-      send_robot_status(test,cli_proc_name)
-      move(robot)
-    else
-      robot
-    end
 
 
 
